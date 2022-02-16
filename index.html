@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- @deprecate load js@version from cdn -->
+    <!-- <script src="https://unpkg.com/vue@2.6.1/dist/vue.js"></script> -->
+    <!-- <script src="https://unpkg.com/http-vue-loader@1.3.2/src/httpVueLoader.js"></script> -->
+
+    <!-- http-vue-loader加载 -->
+    <script src="./js/http-vue-loader.js"></script>
+    <script src="./js/vue.js"></script>
+
+    <!-- import CSS -->
+    <link href="./element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <link href="./css/index.css" rel="stylesheet" />
+
+    <!-- import all JavaScript Code of element-ui -->
+    <!-- <script src="./element-ui/lib/index.js"></script> -->
+  </head>
+
+  <body>
+    <div id="my-app">
+      <store-manager></store-manager>
+      <my-component></my-component>
+      <el-button type="warning">el-button</el-button>
+      <!--
+        <el-dialog :visible.sync="visible" title="Hello world">
+          <p>Try Element</p>
+        </el-dialog>
+      -->
+    </div>
+
+    <!-- <script type="module"></script> -->
+    <script>
+      // if you wanna use module scrpit, then imports way below may be selected
+      // import Vue from "./vue.esm.browser.js";
+      // import  {httpVueLoader} from './http-vue-loader.js';
+
+
+      // httpVueLoader has been initialized in vue.js
+      let hvl = httpVueLoader;
+      // register vue components by hvl.register(Vue, comp.path)
+      // hvl.register(Vue, "StoreManager.vue");
+
+      // Vue has benn initialized in http-vue-loader.js
+      // init Vue object, start to render
+      new Vue({
+        el: "#my-app",
+        // choose child components(vue)
+        components: {
+          "my-component": hvl("/src/my-component.vue"),
+          "store-manager": hvl("/src/StoreManager.vue"),
+          // introduce elmentui components as needs
+          "el-button": hvl("element-ui/packages/button/src/button.vue"),
+        },
+        // 
+        data: function () {
+          return { visible: false };
+        },
+      });
+    </script>
+  </body>
+</html>
