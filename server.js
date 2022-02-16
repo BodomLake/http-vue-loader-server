@@ -6,17 +6,26 @@ const http = require("http"),
   fs = require("fs"),
   path = require("path"),
   url = require("url");
+
 var root = path.resolve();
 // 创建服务器
 var sever = http.createServer(function (request, response) {
+  // console.log('请求的资源路径:', request.url);
+
   var pathname = url.parse(request.url).pathname;
   var filepath = path.join(root, pathname);
+
+  if (request.url == '/') {
+    console.log('重定向到index.html');
+    filepath = path.join(root, 'index.html');
+  }
   // 获取文件状态
   fs.stat(filepath, function (err, stats) {
     if (err) {
       // 发送404响应
       response.writeHead(404);
       response.end("404 Not Found.");
+      console.warn('nodejs server 出错啦')
     } else {
       // 发送200响应
       response.writeHead(200);
@@ -24,6 +33,9 @@ var sever = http.createServer(function (request, response) {
       fs.createReadStream(filepath).pipe(response);
     }
   });
+
+
+
 });
 sever.listen(8090);
 console.log('Sever is running at http://127.0.0.1:8090/');
