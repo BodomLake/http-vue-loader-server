@@ -33,9 +33,6 @@ var sever = http.createServer(function (request, response) {
       fs.createReadStream(filepath).pipe(response);
     }
   });
-
-
-
 });
 sever.listen(8090);
 console.log('Sever is running at http://127.0.0.1:8090/');
